@@ -3,3 +3,5 @@ __pycache__/
 *.pyc
 .vscode/
 notes.txt
+FUTURE.md
+*.db
