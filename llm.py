@@ -10,8 +10,11 @@ Select only the important headlines from the list.
 Rules:
 - drop clickbait, ads, deals and discounts
 - keep real news: releases, announcements, industry events
+- Use ONLY headlines from the list. Never invent or add news.
+- if the list is empty, output nothing
 Output:
-a short numbered list, one headline per line."""
+a short numbered list, one headline per line.
+"""
 
 
 def filter_news(text):
