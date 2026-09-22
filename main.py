@@ -1,7 +1,9 @@
 from sources import getnews
-from llm import filter_news
+from llm import filter_news, summarize
 from delivery import send
 from data import filter_seen
+
+
 
 def main():
     news = getnews()
@@ -9,12 +11,11 @@ def main():
     if not new:
         send("No new news")
         return
-    text = ""
-    for i in new:
-        text += i["title"] + "\n"
-    print(text)
-    filteredllm = filter_news(text)
-    send(filteredllm)
+    filtered = filter_news(new)
+    for item in filtered:
+        summary = summarize(item["descript"])
+        msg = f"{item['title']}\n\n{summary}\n\n{item['link']}"
+        send(msg)
     
 
 if __name__ == "__main__":
