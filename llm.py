@@ -1,7 +1,13 @@
+import os
 from openai import OpenAI
 from sources import getnews
+from dotenv import load_dotenv
+
+load_dotenv()
+LLM_URL = os.environ.get("LLM_URL", "http://localhost:11434/v1")
+LLM_MODEL=os.environ.get("LLM_MODEL", "qwen3:8b")
 client = OpenAI(
-    base_url="http://localhost:11434/v1",
+    base_url=LLM_URL,
     api_key="ollama",
     timeout=120
 )
