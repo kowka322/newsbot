@@ -5,3 +5,4 @@ __pycache__/
 notes.txt
 FUTURE.md
 *.db
+.venv/
