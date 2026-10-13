@@ -10,11 +10,14 @@ def filter_seen(items):
     new = []
     for item in items:
         link = item["link"]
+        title = item["title"]
+        text = item["descript"]
         cur.execute("SELECT 1 FROM articles WHERE link = ?", (link,))
         result = cur.fetchone()
         if result == None:
             new.append(item)
-            cur.execute("INSERT OR IGNORE INTO articles (link) VALUES (?)", (link,))
+            cur.execute("INSERT OR IGNORE INTO articles (link, title, text) VALUES (?,?,?)", (link,title,text))
+
     conn.commit()
     return new
     
