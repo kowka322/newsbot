@@ -1,7 +1,6 @@
 import sqlite3  
 from sources import getnews
-from datetime import datetime
-
+from datetime import datetime, timezone
 
 
 
@@ -14,7 +13,7 @@ def filter_seen(items):
         link = item["link"]
         title = item["title"]
         text = item["descript"]
-        time_ = datetime.now().isoformat(timespec="seconds")
+        time_ = datetime.now(timezone.utc).strftime
         source = item["source"]
         published = item["published"]
         #llm_pass =
