@@ -1,5 +1,7 @@
 import sqlite3  
 from sources import getnews
+from datetime import datetime
+
 
 
 
@@ -12,11 +14,12 @@ def filter_seen(items):
         link = item["link"]
         title = item["title"]
         text = item["descript"]
+        time = datetime.now().isoformat(timespec="seconds")
         cur.execute("SELECT 1 FROM articles WHERE link = ?", (link,))
         result = cur.fetchone()
         if result == None:
             new.append(item)
-            cur.execute("INSERT OR IGNORE INTO articles (link, title, text) VALUES (?,?,?)", (link,title,text))
+            cur.execute("INSERT OR IGNORE INTO articles (link, title, text, time) VALUES (?,?,?,?)", (link,title,text,time))
 
     conn.commit()
     return new
