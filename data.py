@@ -14,12 +14,15 @@ def filter_seen(items):
         link = item["link"]
         title = item["title"]
         text = item["descript"]
-        time = datetime.now().isoformat(timespec="seconds")
+        time_ = datetime.now().isoformat(timespec="seconds")
+        source = item["source"]
+        published = item["published"]
+        #llm_pass =
         cur.execute("SELECT 1 FROM articles WHERE link = ?", (link,))
         result = cur.fetchone()
         if result == None:
             new.append(item)
-            cur.execute("INSERT OR IGNORE INTO articles (link, title, text, time) VALUES (?,?,?,?)", (link,title,text,time))
+            cur.execute("INSERT OR IGNORE INTO articles (link, title, text, time, source, published) VALUES (?,?,?,?,?,?)", (link,title,text,time_,source,published))
 
     conn.commit()
     return new
