@@ -11,7 +11,7 @@ def main():
         send("No new news")
         return
     filtered = filter_news(new)
-    llmpass()
+    llmpass(new, filtered)
     for item in filtered:
         summary = summarize(item["descript"])
         msg = f"{item['title']}\n\n{summary}\n\n{item['link']}"
