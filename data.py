@@ -13,18 +13,29 @@ def filter_seen(items):
         link = item["link"]
         title = item["title"]
         text = item["descript"]
-        time_ = datetime.now(timezone.utc).strftime
+        time_ = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
         source = item["source"]
         published = item["published"]
-        #llm_pass =
         cur.execute("SELECT 1 FROM articles WHERE link = ?", (link,))
         result = cur.fetchone()
         if result == None:
             new.append(item)
             cur.execute("INSERT OR IGNORE INTO articles (link, title, text, time, source, published) VALUES (?,?,?,?,?,?)", (link,title,text,time_,source,published))
-
     conn.commit()
     return new
+
+
+def llmpass(new,kept):
+    conn = sqlite3.connect("seen.db")
+    cur = conn.cursor()
+    for item in new:
+        link = item["link"]
+        if item in kept:
+            llm_pass = True 
+        else:
+            llm_pass = False
+        cur.execute("UPDATE OR IGNORE articles SET llm_pass = ? WHERE link = ?", (llm_pass, link))
+    conn.commit()
     
 if __name__ == "__main__":
     print(filter_seen(getnews()))
