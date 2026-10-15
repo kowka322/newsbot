@@ -1,8 +1,7 @@
 from sources import getnews
 from llm import filter_news, summarize
 from delivery import send
-from data import filter_seen
-
+from data import filter_seen, llmpass
 
 
 def main():
@@ -12,6 +11,7 @@ def main():
         send("No new news")
         return
     filtered = filter_news(new)
+    llmpass()
     for item in filtered:
         summary = summarize(item["descript"])
         msg = f"{item['title']}\n\n{summary}\n\n{item['link']}"
