@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 def filter_seen(items):
     conn = sqlite3.connect("seen.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT PRIMARY KEY, title TEXT, text TEXT, source TEXT, published TEXT, time TEXT, llm_pass INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT PRIMARY KEY, title TEXT, text TEXT, source TEXT, published TEXT, time TEXT, llm_pass INTEGER, sent INTEGER)")
     new = []
     for item in items:
         link = item["link"]
@@ -16,7 +16,7 @@ def filter_seen(items):
         time_ = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
         source = item["source"]
         published = item["published"]
-        cur.execute("SELECT 1 FROM articles WHERE link = ?", (link,))
+        cur.execute("SELECT 1 FROM articles WHERE link = ? AND llm_pass IS NOT NULL", (link,))
         result = cur.fetchone()
         if result == None:
             new.append(item)
