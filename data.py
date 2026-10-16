@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 
 
 
+
 def filter_seen(items):
     conn = sqlite3.connect("seen.db")
     cur = conn.cursor()
@@ -35,6 +36,15 @@ def llmpass(new,kept):
         else:
             llm_pass = False
         cur.execute("UPDATE OR IGNORE articles SET llm_pass = ? WHERE link = ?", (llm_pass, link))
+    conn.commit()
+
+def save_sent(link, ok):
+    conn = sqlite3.connect("seen.db")
+    cur = conn.cursor()
+    if ok == True:
+        cur.execute("UPDATE articles SET sent = 1 WHERE link = ?",(link,))
+    else:
+        cur.execute("UPDATE articles SET sent = 0 WHERE link = ?",(link,))
     conn.commit()
     
 if __name__ == "__main__":

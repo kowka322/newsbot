@@ -1,7 +1,7 @@
 from sources import getnews
 from llm import filter_news, summarize
 from delivery import send
-from data import filter_seen, llmpass
+from data import filter_seen, llmpass, save_sent
 
 
 def main():
@@ -15,7 +15,8 @@ def main():
     for item in filtered:
         summary = summarize(item["descript"])
         msg = f"{item['title']}\n\n{summary}\n\n{item['link']}"
-        send(msg)
+        ok = send(msg)
+        save_sent(item["link"],ok)
     
 
 if __name__ == "__main__":

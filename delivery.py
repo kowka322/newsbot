@@ -12,4 +12,4 @@ URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 def send(text):
     data = {"chat_id": CHAT_ID, "text": text}
     r = requests.post(URL, data=data)
-    print(r.json())
+    return r.json()["ok"]  
