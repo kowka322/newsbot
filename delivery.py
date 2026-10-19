@@ -1,5 +1,5 @@
 import os
-
+import json
 import requests
 from dotenv import load_dotenv
 
@@ -10,6 +10,13 @@ URL = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
 
 def send(text):
-    data = {"chat_id": CHAT_ID, "text": text}
+    buttons = {"inline_keyboard": [[{
+        "text": "I like it", "callback_data": "1"
+    },
+    {
+        "text": "I don't like it", "callback_data": "0"
+    }
+    ]]}    
+    data = {"chat_id": CHAT_ID, "text": text, "reply_markup": json.dumps(buttons)}
     r = requests.post(URL, data=data)
     return r.json()["ok"]  
