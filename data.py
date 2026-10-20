@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 def filter_seen(items):
     conn = sqlite3.connect("seen.db")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT PRIMARY KEY, title TEXT, text TEXT, source TEXT, published TEXT, time TEXT, llm_pass INTEGER, sent INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS articles (link TEXT PRIMARY KEY, title TEXT, text TEXT, source TEXT, published TEXT, time TEXT, llm_pass INTEGER, sent INTEGER, message_id INTEGER)")
     new = []
     for item in items:
         link = item["link"]
@@ -38,11 +38,11 @@ def llmpass(new,kept):
         cur.execute("UPDATE OR IGNORE articles SET llm_pass = ? WHERE link = ?", (llm_pass, link))
     conn.commit()
 
-def save_sent(link, ok):
+def save_sent(link, message_id):
     conn = sqlite3.connect("seen.db")
     cur = conn.cursor()
-    if ok == True:
-        cur.execute("UPDATE articles SET sent = 1 WHERE link = ?",(link,))
+    if message_id != None:
+        cur.execute("UPDATE articles SET sent = 1, message_id = ? WHERE link = ?",(message_id, link,))
     else:
         cur.execute("UPDATE articles SET sent = 0 WHERE link = ?",(link,))
     conn.commit()

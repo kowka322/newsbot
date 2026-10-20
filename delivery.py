@@ -19,4 +19,7 @@ def send(text):
     ]]}    
     data = {"chat_id": CHAT_ID, "text": text, "reply_markup": json.dumps(buttons)}
     r = requests.post(URL, data=data)
-    return r.json()["ok"]  
+    answer = r.json()
+    if answer["ok"] == True:
+        return answer["result"]["message_id"]
+    return None

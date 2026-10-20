@@ -15,8 +15,8 @@ def main():
     for item in filtered:
         summary = summarize(item["descript"])
         msg = f"{item['title']}\n\n{summary}\n\n{item['link']}"
-        ok = send(msg)
-        save_sent(item["link"],ok)
+        message_id = send(msg)
+        save_sent(item["link"],message_id)
     
 
 if __name__ == "__main__":
